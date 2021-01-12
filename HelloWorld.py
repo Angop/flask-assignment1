@@ -44,11 +44,17 @@ users = {
 @app.route('/users', methods=['GET', 'POST', 'DELETE'])
 def get_users():
     if request.method == 'GET':
+        subdict = {'users_list' : []}
         search_username = request.args.get('name') # accesses val of parameter name
         if search_username :
-            subdict = {'users_list' : []}
             for user in users['users_list']:
                 if user['name'] == search_username:
+                    subdict['users_list'].append(user)
+            return subdict
+        search_job = request.args.get('job')
+        if search_job:
+            for user in users['users_list']:
+                if user['job'] == search_job:
                     subdict['users_list'].append(user)
             return subdict
         return users
